@@ -1,3 +1,7 @@
+// const { fetchItem } = require("./helpers/fetchItem");
+
+const addLi = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,6 +44,19 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+// função que adiciona itens no carrinho
+async function addItemCart() {
+  const buttomAdd = document.querySelectorAll('.item__add');
+  return buttomAdd.forEach((buttom) => {
+    buttom.addEventListener('click', async (event) => {
+      const idItem = await getSkuFromProductItem(event.target.parentNode);
+      const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
+      addLi.appendChild(createCartItemElement({ sku, name, salePrice }));
+    });
+  });
+}
+
+// função que inicia página com produtos na tela 'computador'
 async function init() {
   const objProducts = await fetchProducts('computador');
   const results = await objProducts.results;
@@ -50,8 +67,9 @@ async function init() {
 
     items.appendChild(resultProduct);
   });
+  addItemCart();
 }
 
-window.onload = () => { 
-  init();
+window.onload = async () => { 
+  await init();
 };
