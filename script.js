@@ -1,5 +1,3 @@
-// const { fetchItem } = require("./helpers/fetchItem");
-
 const addLi = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
@@ -34,6 +32,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+
+  saveCartItems(addLi.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -44,14 +44,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// função que adiciona itens no carrinho
+// função que adiciona itens no carrinho 
+// Função desenvolvida com auxilio do Mario Junior
 async function addItemCart() {
-  const buttomAdd = document.querySelectorAll('.item__add');
-  return buttomAdd.forEach((buttom) => {
-    buttom.addEventListener('click', async (event) => {
+  const buttonAdd = document.querySelectorAll('.item__add');
+  return buttonAdd.forEach((button) => {
+    button.addEventListener('click', async (event) => {
       const idItem = await getSkuFromProductItem(event.target.parentNode);
       const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
       addLi.appendChild(createCartItemElement({ sku, name, salePrice }));
+
+      saveCartItems(addLi.innerHTML);
     });
   });
 }
@@ -70,6 +73,15 @@ async function init() {
   addItemCart();
 }
 
+// Requisito 4, função que retorna dados do localStorage e adiciona evento de 'click'
+// Requisito 4 resolvido após monitoria em grupo com Thalles.
+function returnItemsCart() {
+  addLi.innerHTML = getSavedCartItems();
+  addLi.addEventListener('click', cartItemClickListener);
+}
+
 window.onload = async () => { 
   await init();
+  
+  returnItemsCart();
 };
