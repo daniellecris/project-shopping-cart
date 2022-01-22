@@ -1,4 +1,5 @@
 const addLi = document.querySelector('.cart__items');
+const emptyCartButtom = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -59,6 +60,14 @@ async function addItemCart() {
   });
 }
 
+// Requisito 6 - Esvaziar Carrinho
+function emptyCart() {
+  emptyCartButtom.addEventListener('click', () => {
+    addLi.innerHTML = '';
+    saveCartItems(addLi.innerHTML);
+  });
+}
+
 // função que inicia página com produtos na tela 'computador'
 async function init() {
   const objProducts = await fetchProducts('computador');
@@ -71,6 +80,7 @@ async function init() {
     items.appendChild(resultProduct);
   });
   addItemCart();
+  emptyCart();
 }
 
 // Requisito 4, função que retorna dados do localStorage e adiciona evento de 'click'
