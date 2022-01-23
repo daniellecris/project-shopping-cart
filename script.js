@@ -31,9 +31,23 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Função que Calcula o Total no carrinho - Requisito 5
+function sumCartItems() {
+  let subPrice = 0;
+  const totalPrice = document.querySelector('.total-price');
+  const itemsLi = document.querySelectorAll('.cart__item');
+
+  itemsLi.forEach((item) => {
+    const text = item.innerText;
+    subPrice += Number(text.split('$')[1]);
+  });
+  totalPrice.innerText = subPrice;
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
-
+  
+  sumCartItems();
   saveCartItems(addLi.innerHTML);
 }
 
@@ -55,6 +69,7 @@ async function addItemCart() {
       const { id: sku, title: name, price: salePrice } = await fetchItem(idItem);
       addLi.appendChild(createCartItemElement({ sku, name, salePrice }));
 
+      sumCartItems();
       saveCartItems(addLi.innerHTML);
     });
   });
@@ -64,6 +79,7 @@ async function addItemCart() {
 function emptyCart() {
   emptyCartButtom.addEventListener('click', () => {
     addLi.innerHTML = '';
+    sumCartItems();
     saveCartItems(addLi.innerHTML);
   });
 }
