@@ -1,5 +1,6 @@
 const addLi = document.querySelector('.cart__items');
 const emptyCartButtom = document.querySelector('.empty-cart');
+const messageLoad = document.querySelector('.container');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -32,6 +33,7 @@ function getSkuFromProductItem(item) {
 }
 
 // Função que Calcula o Total no carrinho - Requisito 5
+// Referencia a função da Brenndha(turma XP/B)
 function sumCartItems() {
   let subPrice = 0;
   const totalPrice = document.querySelector('.total-price');
@@ -44,6 +46,7 @@ function sumCartItems() {
   totalPrice.innerText = subPrice;
 }
 
+// Função que remove item do carrrinho, atualiza SubTotal e LocalStorage
 function cartItemClickListener(event) {
   event.target.remove();
   
@@ -59,8 +62,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// função que adiciona itens no carrinho 
-// Função desenvolvida com auxilio do Mario Junior
+// Minhas Funções
+// Função que adiciona itens ao carrinho, desenvolvida com auxilio do Mario Junior
 async function addItemCart() {
   const buttonAdd = document.querySelectorAll('.item__add');
   return buttonAdd.forEach((button) => {
@@ -84,8 +87,22 @@ function emptyCart() {
   });
 }
 
+const messageLoading = () => {
+  const message = document.createElement('h4');
+  message.innerText = 'Carregando...';
+  message.classList = 'loading';
+  messageLoad.appendChild(message);
+};
+
+function removeLoading() {
+  const loading = document.querySelector('.loading');
+  messageLoad.removeChild(loading);
+}
+
 // função que inicia página com produtos na tela 'computador'
 async function init() {
+  messageLoading();
+
   const objProducts = await fetchProducts('computador');
   const results = await objProducts.results;
   const items = document.querySelector('.items');
@@ -97,6 +114,7 @@ async function init() {
   });
   addItemCart();
   emptyCart();
+  removeLoading();
 }
 
 // Requisito 4, função que retorna dados do localStorage e adiciona evento de 'click'
