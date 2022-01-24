@@ -4,11 +4,11 @@ const computadorSearch = require('../mocks/search');
 
 describe('1 - Teste a função fecthProducts', () => {
   // implemente seus testes aqui
-    it('1 - Verifica se fetProduct é uma função', async () => {
+    it('1 - Verifica se fetchProduct é uma função', async () => {
     expect(fetchProducts).toBeInstanceOf(Function);
   })
 
-  it('2 - Verifica se passando o parametro "computador" a função fetProduct é chamada', async () => {
+  it('2 - Verifica se passando o parametro "computador" a função fetchProduct é chamada', async () => {
     await fetchProducts('computador')
     expect(fetch).toHaveBeenCalled()
   })

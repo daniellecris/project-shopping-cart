@@ -4,7 +4,7 @@ const item = require('../mocks/item');
 
 describe('2 - Teste a função fecthItem', () => {
   // implemente seus testes aqui
-  it('1 - Verifica se fetProduct é uma função', async () => {
+  it('1 - Verifica se fetchItem é uma função', async () => {
     expect(fetchItem).toBeInstanceOf(Function);
   })
 
